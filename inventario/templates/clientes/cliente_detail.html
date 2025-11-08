@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Cliente: {{ cliente }}{% endblock %}
+{% block header %}Cliente: {{ cliente }}{% endblock %}
+
+{% block extra_buttons %}
+<a href="{% url 'clientes:cliente_list' %}" class="btn btn-secondary">Volver a la lista</a>
+<a href="{% url 'clientes:cliente_update' cliente.pk %}" class="btn btn-primary">Editar</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h4>{{ cliente.apellido }}, {{ cliente.nombre }}</h4>
+        <p><strong>Documento:</strong> {{ cliente.documento }}</p>
+        <p><strong>Email:</strong> {{ cliente.email }}</p>
+        <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+    </div>
+</div>
+{% endblock %}

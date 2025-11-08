@@ -20,6 +20,7 @@ class Producto(models.Model):
     """Model definition for Producto."""
 
     nombre = models.CharField("Nombre", max_length=50)
+    sku = models.CharField("SKU", max_length=30, unique=True, blank=True, null=True)
     descripcion = models.CharField("Descripcion", max_length=200)
     precio = models.DecimalField("Precio", max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
@@ -48,11 +49,16 @@ class Producto(models.Model):
         return self.nombre
     
     def save(self, *args, **kwargs):
+        # Generar SKU si no existe (corta versión de UUID)
+        if not self.sku:
+            self.sku = uuid.uuid4().hex[:8].upper()
+
         super().save(*args, **kwargs)
 
+        # Procesar imagen (si existe) — se corrige referencia a self.imagen
         if self.imagen:
             try:
-                img = Image.open(self.image.path)
+                img = Image.open(self.imagen.path)
                 if img.height > 300 or img.width > 300:
                     output_size = (300, 300)
                     img.thumbnail(output_size)

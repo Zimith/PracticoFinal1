@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+{% block title %}Ajustar Stock{% endblock %}
+{% block header %}Ajustar Stock{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h5>Producto: {{ producto.nombre }}</h5>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning">Ajustar</button>
+                <a href="{% url 'productos:producto_detail' producto.pk %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

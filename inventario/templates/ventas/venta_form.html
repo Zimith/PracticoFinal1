@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+  <h1>Nueva venta</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ venta_form|crispy }}
+
+    <h3>Items</h3>
+    <table class="table" id="items-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio unitario</th>
+          <th>Cantidad</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+        <tr>
+          <td>{{ form.producto }}</td>
+          <td><span class="precio" data-form-index="{{ forloop.counter0 }}">-</span></td>
+          <td>{{ form.cantidad }}</td>
+          <td>{{ form.DELETE }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Confirmar venta</button>
+  </form>
+</div>
+<script>
+  // product prices mapping provided by view
+  const PRODUCT_PRICES = {{ product_prices_json|safe }};
+
+  function updatePrices() {
+    // for each product select in the formset, update the corresponding .precio span
+    document.querySelectorAll('select[name$="-producto"]').forEach(function(sel, idx) {
+      const formIndex = sel.name.split('-')[0];
+      const priceSpan = document.querySelector('.precio[data-form-index="' + idx + '"]');
+      if (!priceSpan) return;
+      const val = sel.value;
+      if (val && PRODUCT_PRICES[val] !== undefined) {
+        priceSpan.textContent = PRODUCT_PRICES[val];
+      } else {
+        priceSpan.textContent = '-';
+      }
+    });
+  }
+
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.matches('select[name$="-producto"]')) {
+      updatePrices();
+    }
+  });
+
+  // initial fill
+  document.addEventListener('DOMContentLoaded', function() { updatePrices(); });
+</script>
+{% endblock %}

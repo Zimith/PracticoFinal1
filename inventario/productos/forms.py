@@ -22,7 +22,7 @@ class ProductoForm(forms.ModelForm):
         # Vinculamos este formulario al modelo Producto
         model = Producto
         # Especificamos los campos que se incluirán en el formulario
-        fields = ["nombre", "descripcion", "precio", "stock", "stock_minimo", "imagen"]
+        fields = ["sku", "nombre", "descripcion", "precio", "stock", "stock_minimo", "imagen"]
         # Usamos widgets para personalizar la apariencia de los campos HTML
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 3}),  # Cambia el campo de texto a un área de texto más grande
@@ -41,9 +41,19 @@ class ProductoForm(forms.ModelForm):
         # Asignamos nuestro helper de formulario base para el diseño
         self.helper = BaseFormHelper()
 
+        # Mostrar el SKU pero no permitir editarlo desde el formulario público.
+        # Si existe la instancia (edición) el campo se muestra deshabilitado.
+        # Si es creación, también se muestra deshabilitado (se autogenerará en el modelo).
+        if 'sku' in self.fields:
+            self.fields['sku'].disabled = True
+            self.fields['sku'].help_text = 'No editable. Se generará automáticamente si queda vacío.'
+            # Mostrar un texto guía en creación
+            if not (self.instance and self.instance.pk):
+                # Texto más corto para no superar max_length del campo SKU
+                self.fields['sku'].initial = 'Se generará al guardar'
+
         # Definimos el layout del formulario con la estructura de Crispy Forms
         self.helper.layout = Layout(
-            # Un 'Field' representa un campo de formulario estándar
             Field("nombre"),
             Field("descripcion"),
             # 'PrependedText' añade un prefijo (ej: el símbolo de $) al campo de precio
@@ -66,25 +76,41 @@ class ProductoForm(forms.ModelForm):
     # Validaciones personalizadas a nivel de campo
     # --------------------------------------------------------------------------
     def clean_precio(self):
-        # Obtiene el dato del formulario después de la limpieza inicial de Django
         precio = self.cleaned_data.get("precio")
-        # Si el precio existe y es menor o igual a cero, lanza un error de validación
         if precio and precio <= 0:
             raise ValidationError("El precio debe ser mayor a cero")
-        # Si la validación es exitosa, devuelve el valor del campo
         return precio
-    
+
     def clean_stock(self):
         stock = self.cleaned_data.get("stock")
         if stock and stock < 0:
             raise ValidationError("No puede haber valor negativo de stock")
         return stock
-    
+
     def clean_stock_minimo(self):
         stock_minimo = self.cleaned_data.get("stock_minimo")
         if stock_minimo and stock_minimo < 0:
             raise ValidationError("No puede haber valor negativo de stock minimo")
         return stock_minimo
+
+    def clean_sku(self):
+        """
+        Validación del SKU: si el usuario lo introduce manualmente, validar unicidad.
+        Si no se proporciona (campo disabled en formulario), lo dejará el modelo.
+        """
+        sku = self.cleaned_data.get("sku")
+        # Ignorar valores de placeholder/initial que usamos para mostrar texto en el campo
+        if not sku or str(sku).strip().startswith("Se generará"):
+            return None
+
+        qs = Producto.objects.filter(sku=sku)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+
+        if qs.exists():
+            raise ValidationError("Este SKU ya está en uso")
+
+        return sku
     
 # -----------------------------------------------------------------------------
 # Formulario para el modelo MovimientoStock

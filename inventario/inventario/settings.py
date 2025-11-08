@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -41,6 +42,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'productos',
+    'clientes',
+    'ventas',
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -49,8 +56,13 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # allauth requires its AccountMiddleware
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Custom middleware to require login for anonymous users
+    # Temporarily disabled while debugging redirect loop. Re-enable when fixed.
+    # 'inventario.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'inventario.urls'
@@ -63,6 +75,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'inventario.context_processors.account_settings',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -138,3 +151,28 @@ BOOTSTRAP4 = {
     'error_css_class' : 'is-invalid',
     'success_css_class': 'is-valid',
 }
+
+# django-allauth and auth settings
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_ALLOW_REGISTRATION = False
+
+# Signup behaviour (we don't ask password twice for custom flows)
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+
+# Where to redirect after logout
+# Use concrete paths instead of named URL strings to avoid redirect resolution issues
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+
+# Middleware to require login site-wide is added below (after AuthenticationMiddleware)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Eliminar Cliente{% endblock %}
+{% block header %}Eliminar Cliente{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <p>¿Seguro que deseas eliminar a <strong>{{ object }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'clientes:cliente_detail' object.pk %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

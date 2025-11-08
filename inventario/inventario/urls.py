@@ -18,11 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 
 urlpatterns = [
+    # Simple health endpoint to diagnose redirect loops (no auth)
+    path('health/', lambda request: HttpResponse('ok'), name='health'),
+    path('', include('productos.urls')),
     path('admin/', admin.site.urls),
-    path("", include("productos.urls")),
+    path("productos/", include("productos.urls")),
+    path("clientes/", include("clientes.urls")),
+    path("ventas/", include("ventas.urls")),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
-    urlpatterns =+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

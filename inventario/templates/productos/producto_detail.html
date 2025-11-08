@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Detalle: {{ object.nombre }}{% endblock %}
+{% block header %}Detalle: {{ object.nombre }}{% endblock %}
+
+{% block extra_buttons %}
+<a href="{% url 'productos:producto_list' %}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Volver a la lista
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body text-center">
+                {% if object.imagen %}
+                    <img src="{{ object.imagen.url }}" alt="{{ object.nombre }}" class="img-fluid">
+                {% else %}
+                    <i class="fas fa-image fa-6x text-muted"></i>
+                {% endif %}
+                <h4 class="mt-3">{{ object.nombre }}</h4>
+                <p><strong>SKU:</strong> {{ object.sku }}</p>
+                <p><strong>Precio:</strong> ${{ object.precio }}</p>
+                <p><strong>Stock:</strong> {{ object.stock }}</p>
+                <p><strong>Stock mínimo:</strong> {{ object.stock_minimo }}</p>
+                <a href="{% url 'productos:producto_update' object.pk %}" class="btn btn-primary btn-block">Editar</a>
+                <a href="{% url 'productos:movimiento_create' object.pk %}" class="btn btn-success btn-block">Registrar movimiento</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Descripción</h5>
+                <p>{{ object.descripcion }}</p>
+                <hr>
+                <h5>Movimientos recientes</h5>
+                {% if object.movimientos.all %}
+                    <ul class="list-group">
+                        {% for m in object.movimientos.all|slice:":10" %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ m.get_tipo_display }}</strong> — {{ m.cantidad }}<br>
+                                    <small class="text-muted">{{ m.motivo }} — {{ m.fecha }}</small>
+                                </div>
+                                <span class="badge badge-secondary">{{ m.usuario }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No hay movimientos registrados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

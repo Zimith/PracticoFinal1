@@ -4,6 +4,7 @@
 # -----------------------------------------------------------------------------
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
+from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
@@ -14,10 +15,13 @@ from .forms import ProductoForm, MovimientoStockForm, AjusteStockForm
 
 
 class ProductoListView(ListView):
+    # Temporarily allow anonymous access to the product list while debugging
+    # the login/redirect loop. Re-add FriendlyPermissionRequiredMixin when
+    # the redirect issue is resolved to restore permission checks.
     """Muestra una lista de todos los productos."""
     model = Producto
-    template_name = "producto/producto_list.html"
-    context_object_name = "producto"
+    template_name = "productos/producto_list.html"
+    context_object_name = "productos"
 
     def get_queryset(self):
         """Sobrescribe para permitir el filtrado por stock bajo."""
@@ -39,7 +43,8 @@ class ProductoListView(ListView):
         return context
     
 
-class ProductoDetailView(DetailView):
+class ProductoDetailView(FriendlyPermissionRequiredMixin, DetailView):
+    permission_required = 'productos.view_producto'
     """Muestra los detalles de un producto específico."""
     model = Producto
     template_name = "productos/producto_detail.html"
@@ -54,7 +59,8 @@ class ProductoDetailView(DetailView):
         return context
     
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(FriendlyPermissionRequiredMixin, CreateView):
+    permission_required = 'productos.add_producto'
     """Vista para crear un nuevo producto."""
     model = Producto
     form_class = ProductoForm
@@ -79,12 +85,13 @@ class ProductoCreateView(CreateView):
         return response
     
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(FriendlyPermissionRequiredMixin, UpdateView):
+    permission_required = 'productos.change_producto'
     """Vista para actualizar un producto existente."""
     model = Producto
-    template_name = "producto/producto_form.html"
+    template_name = "productos/producto_form.html"
     form_class = ProductoForm
-    success_url = reverse_lazy("producto:producto_list")
+    success_url = reverse_lazy("productos:producto_list")
 
     def form_valid(self, form):
         """Sobrescribe para mostrar un mensaje de éxito."""
@@ -93,11 +100,12 @@ class ProductoUpdateView(UpdateView):
         return response
     
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(FriendlyPermissionRequiredMixin, DeleteView):
+    permission_required = 'productos.delete_producto'
     """Vista para eliminar un producto."""
     model = Producto
     template_name = "productos/producto_confirm_delete.html"
-    success_url = reverse_lazy("producto:producto_list")
+    success_url = reverse_lazy("productos:producto_list")
 
     def delete(self, request, *args, **kwargs):
         """Sobrescribe para mostrar un mensaje de éxito después de eliminar."""
@@ -105,7 +113,8 @@ class ProductoDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
     
 
-class MovimientoStockCreateView(CreateView):
+class MovimientoStockCreateView(FriendlyPermissionRequiredMixin, CreateView):
+    permission_required = 'productos.add_movimientostock'
     """Vista para registrar un nuevo movimiento de stock."""
     model = MovimientoStock
     template_name = "productos/movimiento_form.html"
@@ -138,6 +147,15 @@ class MovimientoStockCreateView(CreateView):
             else:
                 form.add_error("cantidad", "No hay stock suficiente")
                 return self.form_invalid(form)
+        elif movimiento.tipo == "ajuste":
+            # Interpretar 'ajuste' desde el formulario de movimiento como "nuevo stock" absoluto.
+            # Es decir, el usuario introduce el valor de stock que quiere dejar, y guardamos
+            # en el movimiento la cantidad ajustada (delta absoluta) para audit trail.
+            antiguo = movimiento.producto.stock
+            nuevo = movimiento.cantidad
+            diferencia = nuevo - antiguo
+            movimiento.cantidad = abs(diferencia)
+            movimiento.producto.stock = nuevo
         
         # Guarda el producto actualizado y el nuevo movimiento
         movimiento.producto.save()
@@ -174,10 +192,10 @@ class AjusteStockView(FormView):
         diferencia = nueva_cantidad - producto.stock
 
         if diferencia != 0:
-            tipo = "entrada" if diferencia > 0 else "salida" 
+            # Registrar como 'ajuste' para dejar claro que fue una corrección/manual
             MovimientoStock.objects.create(
                 producto=producto,
-                tipo=tipo,
+                tipo="ajuste",
                 cantidad=abs(diferencia),
                 motivo=motivo,
                 fecha=timezone.now(),
@@ -194,7 +212,8 @@ class AjusteStockView(FormView):
         return redirect("productos:producto_detail", pk=producto.pk)
 
 
-class StockBajoListView(ListView):
+class StockBajoListView(FriendlyPermissionRequiredMixin, ListView):
+    permission_required = 'productos.view_producto'
     """Muestra una lista filtrada solo para productos con stock bajo."""
     model = Producto
     template_name = "productos/stock_bajo_list.html"
