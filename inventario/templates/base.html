@@ -37,68 +37,41 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    {% comment %} Productos links: visible sólo si el usuario tiene permisos de producto {% endcomment %}
-                    {% if user.is_authenticated and perms.productos.view_producto %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'productos:producto_list' %}">
                             <i class="fas fa-list"></i> Productos
                         </a>
                     </li>
-                    {% endif %}
 
-                    {% if user.is_authenticated and perms.productos.add_producto %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'productos:producto_create' %}">
-                            <i class="fas fa-plus-circle"></i> Nuevo Producto
-                        </a>
-                    </li>
-                    {% endif %}
+                    {# Nuevo Producto link removed by request #}
 
-                    {% comment %} Clientes links: visible a usuarios con permisos de cliente {% endcomment %}
-                    {% if user.is_authenticated and perms.clientes.view_cliente %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'clientes:cliente_list' %}">
                             <i class="fas fa-user-friends"></i> Clientes
                         </a>
                     </li>
-                    {% endif %}
 
-                    {% if user.is_authenticated and perms.clientes.add_cliente %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'clientes:cliente_create' %}">
-                            <i class="fas fa-user-plus"></i> Nuevo Cliente
-                        </a>
-                    </li>
-                    {% endif %}
+                    {# Nuevo Cliente link removed by request #}
 
-                    {% comment %} Stock Bajo: visible sólo para quienes pueden ver productos {% endcomment %}
-                    {% if user.is_authenticated and perms.productos.view_producto %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'productos:stock_bajo_list' %}">
                             <i class="fas fa-exclamation-triangle"></i> Stock Bajo
                         </a>
                     </li>
-                    {% endif %}
 
-                    {% comment %} Ventas links: visible sólo para quienes tienen permisos de ventas {% endcomment %}
-                    {% if user.is_authenticated and perms.ventas.view_venta %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ventas:venta_list' %}">
                             <i class="fas fa-cash-register"></i> Ventas
                         </a>
                     </li>
-                    {% endif %}
 
-                    {% if user.is_authenticated and perms.ventas.add_venta %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'ventas:venta_create' %}">
-                            <i class="fas fa-plus-circle"></i> Nueva Venta
-                        </a>
-                    </li>
-                    {% endif %}
+                    {# Nueva Venta link removed by request #}
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
+                    <li class="nav-item d-flex align-items-center mr-2">
+                        <span class="navbar-text">Hola, {{ user.get_full_name|default:user.username }}{% if user.is_superuser %} <small class="text-muted">(admin)</small>{% endif %}</span>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Salir</a>
                     </li>
@@ -106,9 +79,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
                     </li>
+                    {% if ACCOUNT_ALLOW_REGISTRATION %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_signup' %}">Registrarse</a>
                     </li>
+                    {% endif %}
                     {% endif %}
                 </ul>
             </div>

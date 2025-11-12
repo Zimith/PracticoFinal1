@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.db import transaction
 from django.contrib import messages
@@ -14,21 +15,21 @@ from .forms import VentaForm, ItemVentaFormSet
 import json
 
 
-class VentaListView(FriendlyPermissionRequiredMixin, ListView):
+class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListView):
     permission_required = 'ventas.view_venta'
     model = Venta
     template_name = 'ventas/venta_list.html'
     context_object_name = 'ventas'
 
 
-class VentaDetailView(FriendlyPermissionRequiredMixin, DetailView):
+class VentaDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DetailView):
     permission_required = 'ventas.view_venta'
     model = Venta
     template_name = 'ventas/venta_detail.html'
     context_object_name = 'venta'
 
 
-class VentaCreateView(FriendlyPermissionRequiredMixin, View):
+class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
     permission_required = 'ventas.add_venta'
     template_name = 'ventas/venta_form.html'
 

@@ -4,6 +4,7 @@
 # -----------------------------------------------------------------------------
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -43,7 +44,7 @@ class ProductoListView(ListView):
         return context
     
 
-class ProductoDetailView(FriendlyPermissionRequiredMixin, DetailView):
+class ProductoDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DetailView):
     permission_required = 'productos.view_producto'
     """Muestra los detalles de un producto específico."""
     model = Producto
@@ -59,7 +60,7 @@ class ProductoDetailView(FriendlyPermissionRequiredMixin, DetailView):
         return context
     
 
-class ProductoCreateView(FriendlyPermissionRequiredMixin, CreateView):
+class ProductoCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, CreateView):
     permission_required = 'productos.add_producto'
     """Vista para crear un nuevo producto."""
     model = Producto
@@ -85,7 +86,7 @@ class ProductoCreateView(FriendlyPermissionRequiredMixin, CreateView):
         return response
     
 
-class ProductoUpdateView(FriendlyPermissionRequiredMixin, UpdateView):
+class ProductoUpdateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, UpdateView):
     permission_required = 'productos.change_producto'
     """Vista para actualizar un producto existente."""
     model = Producto
@@ -100,7 +101,7 @@ class ProductoUpdateView(FriendlyPermissionRequiredMixin, UpdateView):
         return response
     
 
-class ProductoDeleteView(FriendlyPermissionRequiredMixin, DeleteView):
+class ProductoDeleteView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DeleteView):
     permission_required = 'productos.delete_producto'
     """Vista para eliminar un producto."""
     model = Producto
@@ -113,7 +114,7 @@ class ProductoDeleteView(FriendlyPermissionRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
     
 
-class MovimientoStockCreateView(FriendlyPermissionRequiredMixin, CreateView):
+class MovimientoStockCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, CreateView):
     permission_required = 'productos.add_movimientostock'
     """Vista para registrar un nuevo movimiento de stock."""
     model = MovimientoStock
@@ -212,7 +213,7 @@ class AjusteStockView(FormView):
         return redirect("productos:producto_detail", pk=producto.pk)
 
 
-class StockBajoListView(FriendlyPermissionRequiredMixin, ListView):
+class StockBajoListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListView):
     permission_required = 'productos.view_producto'
     """Muestra una lista filtrada solo para productos con stock bajo."""
     model = Producto
