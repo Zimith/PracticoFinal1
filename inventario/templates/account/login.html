@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <h2>Iniciar sesión</h2>
-  <form method="post" action="{% url 'account_login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Entrar</button>
-  </form>
+<div class="container d-flex justify-content-center">
+  <div class="card w-50 mt-5 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {% load crispy_forms_tags %}
+        {{ form|crispy }}
+        <div class="d-flex justify-content-between mt-3">
+          <a href="/" class="btn btn-link">Volver</a>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

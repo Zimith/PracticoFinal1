@@ -23,15 +23,28 @@ class ProductoListView(ListView):
     model = Producto
     template_name = "productos/producto_list.html"
     context_object_name = "productos"
+    paginate_by = 20
 
     def get_queryset(self):
         """Sobrescribe para permitir el filtrado por stock bajo."""
         queryset = super().get_queryset()
-
         stock_bajo = self.request.GET.get('stock_bajo')
         if stock_bajo:
             # Filtra en la base de datos usando F() para eficiencia
             queryset = queryset.filter(stock__lt=F("stock_minimo"))
+
+        # Search across multiple fields: sku, nombre, descripcion, or id
+        q = self.request.GET.get('q')
+        if q:
+            q = q.strip()
+            try:
+                pk = int(q)
+            except (ValueError, TypeError):
+                pk = None
+
+            queryset = queryset.filter(
+                Q(sku__icontains=q) | Q(nombre__icontains=q) | Q(descripcion__icontains=q) | (Q(pk=pk) if pk is not None else Q())
+            )
 
         # Hay un error aquí: 'order_by' debe ser una llamada a método, no una indexación
         # Se ha corregido la sentencia
@@ -41,6 +54,13 @@ class ProductoListView(ListView):
         """Añade una variable al contexto para saber si se está filtrando por stock bajo."""
         context = super().get_context_data(**kwargs)
         context["stock_bajo"] = self.request.GET.get("stock_bajo")
+        # current search query for template
+        context['q'] = self.request.GET.get('q', '')
+        # preserved GET params for pagination links (exclude 'page')
+        params = self.request.GET.copy()
+        if 'page' in params:
+            params.pop('page')
+        context['querystring'] = params.urlencode()
         return context
     
 
@@ -219,6 +239,7 @@ class StockBajoListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, Lis
     model = Producto
     template_name = "productos/stock_bajo_list.html"
     context_object_name = "productos"
+    paginate_by = 20
 
     def get_queryset(self):
         """

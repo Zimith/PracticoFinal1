@@ -6,14 +6,34 @@
 {% block header %}{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Cliente{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">{% if form.instance.pk %}<i class="fas fa-edit"></i> Editar{% else %}<i class="fas fa-user-plus"></i> Nuevo{% endif %} Cliente</h4>
+        <a href="{% url 'clientes:cliente_list' %}" class="btn btn-outline-secondary btn-sm">Volver</a>
+    </div>
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Guardar</button>
-                <a href="{% url 'clientes:cliente_list' %}" class="btn btn-secondary">Cancelar</a>
+            <div class="row">
+                <div class="col-md-8">
+                    {{ form|crispy }}
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Información rápida</h6>
+                            {% if form.instance.pk %}
+                            <p><strong>ID:</strong> {{ form.instance.pk }}</p>
+                            {% endif %}
+                            <p><strong>Documento:</strong> {{ form.instance.documento|default:'-' }}</p>
+                            <p class="text-muted"><small>Los campos obligatorios están marcados.</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success mr-2"><i class="fas fa-save"></i> Guardar</button>
+                <a href="{% url 'clientes:cliente_list' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
             </div>
         </form>
     </div>

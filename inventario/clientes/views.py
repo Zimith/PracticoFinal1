@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Q
 from .models import Cliente
 from .forms import ClienteForm
 
@@ -11,6 +12,23 @@ class ClienteListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListV
     model = Cliente
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
+    paginate_by = 20
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(Q(nombre__icontains=q) | Q(apellido__icontains=q) | Q(documento__icontains=q))
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        params = self.request.GET.copy()
+        if 'page' in params:
+            params.pop('page')
+        context['querystring'] = params.urlencode()
+        context['q'] = self.request.GET.get('q', '')
+        return context
 
 class ClienteDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DetailView):
     permission_required = 'clientes.view_cliente'

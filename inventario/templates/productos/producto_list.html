@@ -5,13 +5,27 @@
 {% block header %}Lista de Productos{% endblock %}
 
 {% block extra_buttons %}
-<div>
-    <a href="{% url 'productos:stock_bajo_list' %}" class="btn btn-warning mr-2">
-        <i class="fas fa-exclamation-triangle"></i> Stock Bajo
-    </a>
-    <a href="{% url 'productos:producto_create' %}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Nuevo Producto
-    </a>
+<div class="d-flex justify-content-between align-items-center w-100">
+    <div>
+        <a href="{% url 'productos:stock_bajo_list' %}" class="btn btn-warning mr-2">
+                <i class="fas fa-exclamation-triangle"></i> Stock Bajo
+        </a>
+        <a href="{% url 'productos:producto_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nuevo Producto
+        </a>
+    </div>
+
+    <div>
+        <form method="get" class="form-inline">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Buscar por código, SKU, nombre, descripción" value="{{ q }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    <a class="btn btn-link" href="{% url 'productos:producto_list' %}">Limpiar</a>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
 
@@ -62,9 +76,7 @@
                 </td>
                 <td>
                     <div class="btn-group btn-group-sm">
-                        <a href="{% url 'productos:producto_detail' producto.pk %}" class="btn btn-info" title="Ver detalle">
-                            <i class="fas fa-eye"></i>
-                        </a>
+                        <a href="{% url 'productos:producto_detail' producto.pk %}" class="btn btn-info" title="Ver detalle"><i class="fas fa-eye"></i></a>
                         <a href="{% url 'productos:producto_update' producto.pk %}" class="btn btn-primary" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -78,6 +90,40 @@
         </tbody>
     </table>
 </div>
+<!-- Pagination -->
+{% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for num in paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+                    <li class="page-item"><a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
 {% else %}
 <div class="alert alert-info">
     <i class="fas fa-info-circle"></i> No hay productos registrados.

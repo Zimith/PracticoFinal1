@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <h2>Desconectar</h2>
-  <p>¿Estás seguro que quieres cerrar sesión?</p>
-  <form method="post" action="{% url 'account_logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-    <a href="/" class="btn btn-secondary">Cancelar</a>
-  </form>
+<div class="container d-flex justify-content-center">
+  <div class="card w-50 mt-5 shadow-sm">
+    <div class="card-header bg-danger text-white">
+      <h4 class="mb-0"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</h4>
+    </div>
+    <div class="card-body">
+      <p class="mb-3">¿Estás seguro que quieres cerrar sesión?</p>
+      <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+          <a href="/" class="btn btn-secondary mr-2">Cancelar</a>
+          <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

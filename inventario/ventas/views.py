@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.db import transaction
+from django.db.models import Q
 from django.contrib import messages
 
 from .models import Venta, ItemVenta
@@ -20,6 +21,87 @@ class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListVie
     model = Venta
     template_name = 'ventas/venta_list.html'
     context_object_name = 'ventas'
+    paginate_by = 20
+
+    def get_queryset(self):
+        """Filter by date range (dd/mm/yyyy) and by cliente id from GET params.
+
+        GET params supported:
+        - desde: start date in dd/mm/YYYY
+        - hasta: end date in dd/mm/YYYY
+        - cliente: Cliente id
+        """
+        qs = super().get_queryset()
+        desde = self.request.GET.get('desde')
+        hasta = self.request.GET.get('hasta')
+        cliente = self.request.GET.get('cliente')
+
+        from datetime import datetime
+        from django.contrib import messages
+
+        # filter by cliente id or fuzzy match if provided
+        if cliente:
+            # cliente may be: an id, a string like '123 - Apellido, Nombre (...)', or a name fragment
+            from clientes.models import Cliente as ClienteModel
+            import re
+
+            cid = None
+            # plain numeric id
+            if cliente.isdigit():
+                cid = int(cliente)
+            else:
+                m = re.match(r"^(\d+)\s*-\s*", cliente)
+                if m:
+                    try:
+                        cid = int(m.group(1))
+                    except (ValueError, TypeError):
+                        cid = None
+
+            if cid:
+                qs = qs.filter(cliente_id=cid)
+            else:
+                # try to find matching clients by name/apellido/documento
+                candidates = ClienteModel.objects.filter(
+                    Q(nombre__icontains=cliente) | Q(apellido__icontains=cliente) | Q(documento__icontains=cliente)
+                )
+                if candidates.count() == 1:
+                    qs = qs.filter(cliente_id=candidates.first().pk)
+                elif candidates.count() == 0:
+                    messages.error(self.request, 'Cliente no encontrado')
+                else:
+                    messages.error(self.request, 'Varios clientes coinciden; seleccione el correcto de la lista')
+
+        # filter by desde/hasta dates
+        if desde:
+            try:
+                d = datetime.strptime(desde, '%d/%m/%Y').date()
+                qs = qs.filter(fecha__date__gte=d)
+            except ValueError:
+                messages.error(self.request, 'Formato de fecha "desde" inválido. Use dd/mm/aaaa')
+
+        if hasta:
+            try:
+                h = datetime.strptime(hasta, '%d/%m/%Y').date()
+                qs = qs.filter(fecha__date__lte=h)
+            except ValueError:
+                messages.error(self.request, 'Formato de fecha "hasta" inválido. Use dd/mm/aaaa')
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # provide clients for the filter select and current filter values
+        from clientes.models import Cliente
+
+        context['clientes'] = Cliente.objects.all()
+        context['filter_desde'] = self.request.GET.get('desde', '')
+        context['filter_hasta'] = self.request.GET.get('hasta', '')
+        context['filter_cliente'] = self.request.GET.get('cliente', '')
+        params = self.request.GET.copy()
+        if 'page' in params:
+            params.pop('page')
+        context['querystring'] = params.urlencode()
+        return context
 
 
 class VentaDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DetailView):
