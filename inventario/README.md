@@ -37,16 +37,22 @@ Acceder
 
 Credenciales / Usuarios auto-creados:
 
-- Si editaste `.env` y definiste `ADMIN_PASS`, `DEMO_VENTAS_PASS` y/o `DEMO_STOCK_PASS`, esos usuarios serán creados automáticamente al arrancar el contenedor (usuario `admin`, `demo_ventas` y `demo_stock`).
-- Si NO definiste esas variables, tendrás que crear el superuser manualmente desde el contenedor:
+Para simplificar la evaluación, la imagen está configurada con credenciales por defecto. Si el profesor clona el repo y ejecuta el único comando, los usuarios se crean automáticamente con las siguientes credenciales:
+
+- Admin (superuser): usuario `admin` / contraseña `AdminPass123`
+- Usuario ventas: usuario `demo_ventas` / contraseña `DemoPass123!`
+- Usuario stock: usuario `demo_stock` / contraseña `DemoPass123!`
+
+Así que el flujo para el profesor es simplemente:
 
 ```powershell
-# Crear superuser interactivamente
-docker compose exec web python manage.py createsuperuser
-
-# O crear usuarios de ejemplo no interactivos (ejemplo con contraseñas)
-docker compose exec web python manage.py shell -c "from django.contrib.auth import get_user_model; User=get_user_model(); User.objects.create_superuser('admin','admin@example.com','AdminPass123')"
+Set-Location 'C:\ruta\a\Proyecto\Inventario\inventario'
+docker compose up -d --build
 ```
+
+Luego abrir `http://localhost:8000` y hacer login en `/accounts/login/` (o acceder a `/admin` con el admin).
+
+Si prefieres definir contraseñas personalizadas en lugar de usar las por defecto, edita `.env.example` y copia a `.env` antes de arrancar (opcional). Pero no es necesario para la evaluación.
 
 Notas
 - No se incluyen archivos estáticos recopilados en el repo (`staticfiles/` está en `.gitignore`).
