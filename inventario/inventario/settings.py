@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Custom middleware to require login for anonymous users
     # Temporarily disabled while debugging redirect loop. Re-enable when fixed.
-    # 'inventario.middleware.LoginRequiredMiddleware',
+    'inventario.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'inventario.urls'

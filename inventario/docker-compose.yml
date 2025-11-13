@@ -19,6 +19,9 @@ services:
     environment:
       - DEBUG=0
       - SECRET_KEY=changeme123
+      - ADMIN_PASS=${ADMIN_PASS}
+      - DEMO_VENTAS_PASS=${DEMO_VENTAS_PASS}
+      - DEMO_STOCK_PASS=${DEMO_STOCK_PASS}
       - POSTGRES_DB=inventario
       - POSTGRES_USER=inventario
       - POSTGRES_PASSWORD=inventario_pass
