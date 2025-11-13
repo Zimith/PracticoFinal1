@@ -51,32 +51,5 @@
     </div>
   </div>
 </div>
-<script>
-  // product prices mapping provided by view
-  const PRODUCT_PRICES = {{ product_prices_json|safe }};
-
-  function updatePrices() {
-    // for each product select in the formset, update the corresponding .precio span
-    document.querySelectorAll('select[name$="-producto"]').forEach(function(sel, idx) {
-      const formIndex = sel.name.split('-')[0];
-      const priceSpan = document.querySelector('.precio[data-form-index="' + idx + '"]');
-      if (!priceSpan) return;
-      const val = sel.value;
-      if (val && PRODUCT_PRICES[val] !== undefined) {
-        priceSpan.textContent = PRODUCT_PRICES[val];
-      } else {
-        priceSpan.textContent = '-';
-      }
-    });
-  }
-
-  document.addEventListener('change', function(e) {
-    if (e.target && e.target.matches('select[name$="-producto"]')) {
-      updatePrices();
-    }
-  });
-
-  // initial fill
-  document.addEventListener('DOMContentLoaded', function() { updatePrices(); });
-</script>
+ 
 {% endblock %}

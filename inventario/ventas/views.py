@@ -13,7 +13,6 @@ from django.contrib import messages
 from .models import Venta, ItemVenta
 from productos.models import Producto
 from .forms import VentaForm, ItemVentaFormSet
-import json
 
 
 class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListView):
@@ -118,9 +117,7 @@ class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View)
     def get(self, request, *args, **kwargs):
         venta_form = VentaForm()
         formset = ItemVentaFormSet()
-        # prepare product price mapping for frontend
-        product_prices = {p.pk: str(p.precio) for p in Producto.objects.all()}
-        return render(request, self.template_name, {'venta_form': venta_form, 'formset': formset, 'product_prices_json': json.dumps(product_prices)})
+        return render(request, self.template_name, {'venta_form': venta_form, 'formset': formset})
 
     def post(self, request, *args, **kwargs):
         venta_form = VentaForm(request.POST)
@@ -149,9 +146,8 @@ class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View)
                 # Add a friendly alert message if there are shortages
                 if shortages:
                     messages.error(request, 'Stock insuficiente para: ' + '; '.join(shortages))
-                # re-render with errors (include product prices for JS)
-                product_prices = {p.pk: str(p.precio) for p in Producto.objects.all()}
-                return render(request, self.template_name, {'venta_form': venta_form, 'formset': formset, 'product_prices_json': json.dumps(product_prices)})
+                # re-render with errors
+                return render(request, self.template_name, {'venta_form': venta_form, 'formset': formset})
 
             with transaction.atomic():
                 venta = venta_form.save(commit=False)
@@ -184,5 +180,5 @@ class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View)
 
                 return redirect('ventas:venta_detail', pk=venta.pk)
 
-        # invalid
+        # invalid - re-render with forms (no frontend price JS required)
         return render(request, self.template_name, {'venta_form': venta_form, 'formset': formset})
