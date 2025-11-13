@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y build-essential libpq-dev --no-install-
 # instalar dependencias Python
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install whitenoise==6.11.0
 
 # copiar proyecto
 COPY . /app/
