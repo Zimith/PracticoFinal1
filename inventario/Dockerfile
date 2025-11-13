@@ -19,8 +19,9 @@ COPY . /app/
 # entrypoint para migraciones/collectstatic
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh || true
 
 EXPOSE 8000
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
 CMD ["gunicorn", "inventario.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
