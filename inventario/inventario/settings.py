@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Custom middleware to require login for anonymous users
     # Temporarily disabled while debugging redirect loop. Re-enable when fixed.
-    # 'inventario.middleware.LoginRequiredMiddleware',
+    'inventario.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'inventario.urls'
@@ -144,9 +144,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
