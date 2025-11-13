@@ -64,7 +64,7 @@
           <hr>
           <div class="d-grid gap-2">
             <a href="{% url 'ventas:venta_list' %}" class="btn btn-light"> <i class="fas fa-arrow-left"></i> Volver</a>
-            <a href="#" class="btn btn-outline-secondary"> <i class="fas fa-file-pdf"></i> Exportar PDF</a>
+            <a href="{% url 'ventas:venta_pdf' venta.pk %}" target="_blank" class="btn btn-outline-secondary"> <i class="fas fa-file-pdf"></i> Exportar PDF</a>
           </div>
         </div>
       </div>

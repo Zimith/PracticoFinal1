@@ -7,12 +7,21 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from inventario.mixins import FriendlyPermissionRequiredMixin
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.contrib import messages
 
 from .models import Venta, ItemVenta
 from productos.models import Producto
 from .forms import VentaForm, ItemVentaFormSet
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+
+try:
+    # optional import — available once we installed the package
+    from weasyprint import HTML
+except Exception:
+    HTML = None
 
 
 class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListView):
@@ -103,11 +112,134 @@ class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListVie
         return context
 
 
+class VentasPorDiaJSONView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
+    """Return JSON with sales totals grouped by day for the chart.
+
+    Response format: [{"date": "YYYY-MM-DD", "total": 123.45}, ...]
+    """
+    permission_required = 'ventas.view_venta'
+
+    def get(self, request, *args, **kwargs):
+        from django.http import JsonResponse
+        from django.db.models import DateField, DateTimeField
+        from django.db.models.functions import TruncDate
+
+        qs = Venta.objects.all()
+
+        # Apply same filters as list view if present
+        desde = request.GET.get('desde')
+        hasta = request.GET.get('hasta')
+        cliente = request.GET.get('cliente')
+
+        from datetime import datetime
+        if cliente:
+            if cliente.isdigit():
+                qs = qs.filter(cliente_id=int(cliente))
+
+        if desde:
+            try:
+                d = datetime.strptime(desde, '%d/%m/%Y').date()
+                qs = qs.filter(fecha__date__gte=d)
+            except ValueError:
+                pass
+        if hasta:
+            try:
+                h = datetime.strptime(hasta, '%d/%m/%Y').date()
+                qs = qs.filter(fecha__date__lte=h)
+            except ValueError:
+                pass
+
+        data = (
+            qs.annotate(day=TruncDate('fecha'))
+            .values('day')
+            .order_by('day')
+            .annotate(total=Sum('total'))
+        )
+
+        # Build response list
+        out = []
+        for row in data:
+            day = row['day']
+            total = row['total'] or 0
+            out.append({'date': day.isoformat(), 'total': float(total)})
+
+        return JsonResponse(out, safe=False)
+
+
+class VentasPorProductoJSONView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
+    """Return JSON with sales totals grouped by product.
+
+    Response format: [{"product": "Nombre producto", "total": 123.45}, ...]
+    """
+    permission_required = 'ventas.view_venta'
+
+    def get(self, request, *args, **kwargs):
+        from django.http import JsonResponse
+        from django.db.models import Sum
+
+        qs = ItemVenta.objects.select_related('producto').all()
+
+        # Apply optional filters from the list view (fecha range, cliente)
+        desde = request.GET.get('desde')
+        hasta = request.GET.get('hasta')
+        cliente = request.GET.get('cliente')
+
+        from datetime import datetime
+        if cliente:
+            if cliente.isdigit():
+                qs = qs.filter(venta__cliente_id=int(cliente))
+
+        if desde:
+            try:
+                d = datetime.strptime(desde, '%d/%m/%Y').date()
+                qs = qs.filter(venta__fecha__date__gte=d)
+            except ValueError:
+                pass
+        if hasta:
+            try:
+                h = datetime.strptime(hasta, '%d/%m/%Y').date()
+                qs = qs.filter(venta__fecha__date__lte=h)
+            except ValueError:
+                pass
+
+        data = (
+            qs.values('producto__id', 'producto__nombre')
+            .annotate(total=Sum('subtotal'))
+            .order_by('-total')
+        )
+
+        out = []
+        for row in data:
+            name = row.get('producto__nombre') or '—'
+            total = row.get('total') or 0
+            out.append({'product': name, 'total': float(total)})
+
+        return JsonResponse(out, safe=False)
+
+
 class VentaDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, DetailView):
     permission_required = 'ventas.view_venta'
     model = Venta
     template_name = 'ventas/venta_detail.html'
     context_object_name = 'venta'
+
+
+class VentaPDFView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
+    permission_required = 'ventas.view_venta'
+
+    def get(self, request, pk, *args, **kwargs):
+        venta = get_object_or_404(Venta, pk=pk)
+
+        if HTML is None:
+            return HttpResponse('WeasyPrint no está instalado en el sistema.', status=500)
+
+        html_string = render_to_string('ventas/venta_pdf.html', {'venta': venta, 'request': request})
+        # base_url ensures static files (if referenced) are resolved
+        pdf = HTML(string=html_string, base_url=request.build_absolute_uri('/')).write_pdf()
+
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f'inline; filename=venta_{venta.codigo}.pdf'
+        return response
 
 
 class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
