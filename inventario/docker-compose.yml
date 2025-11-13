@@ -22,6 +22,7 @@ services:
       - ADMIN_PASS=AdminPass123
       - DEMO_VENTAS_PASS=DemoPass123!
       - DEMO_STOCK_PASS=DemoPass123!
+      - SERVE_MEDIA=1
       - POSTGRES_DB=inventario
       - POSTGRES_USER=inventario
       - POSTGRES_PASSWORD=inventario_pass
@@ -29,11 +30,14 @@ services:
       - DB_PORT=5432
     depends_on:
       - db
+    volumes:
+      - media_data:/app/media
     networks:
       - inventario-net
 
 volumes:
   postgres_data:
+  media_data:
 
 networks:
   inventario-net:

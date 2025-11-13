@@ -31,64 +31,75 @@
 
 {% block content %}
 {% if object_list %}
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>SKU</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Mínimo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in object_list %}
-            <tr class="{% if producto.necesita_reposicion %}table-warning{% endif %}">
-                <td>
-                    {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-img rounded">
-                    {% else %}
-                        <div class="product-img bg-light d-flex align-items-center justify-content-center rounded">
-                            <i class="fas fa-image text-muted"></i>
-                        </div>
-                    {% endif %}
-                </td>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.sku }}</td>
-                <td>${{ producto.precio }}</td>
-                <td>
-                    {{ producto.stock }}
-                    {% if producto.necesita_reposicion %}
-                        <i class="fas fa-exclamation-circle text-danger ml-1"></i>
-                    {% endif %}
-                </td>
-                <td>{{ producto.stock_minimo }}</td>
-                <td>
-                    {% if producto.necesita_reposicion %}
-                        <span class="badge badge-warning badge-lg">Bajo</span>
-                    {% else %}
-                        <span class="badge badge-success badge-lg">OK</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <div class="btn-group btn-group-sm">
-                        <a href="{% url 'productos:producto_detail' producto.pk %}" class="btn btn-info" title="Ver detalle"><i class="fas fa-eye"></i></a>
-                        <a href="{% url 'productos:producto_update' producto.pk %}" class="btn btn-primary" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="{% url 'productos:movimiento_create' producto.pk %}" class="btn btn-success" title="Movimiento">
-                            <i class="fas fa-exchange-alt"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<style>
+        .product-img { width:64px; height:64px; object-fit:cover; }
+        .product-placeholder { width:64px; height:64px; display:flex; align-items:center; justify-content:center; }
+        .product-name { max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .price { min-width:100px; }
+        .action-btn { width:40px; }
+</style>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-borderless table-hover align-middle">
+                <thead>
+                    <tr class="text-muted small">
+                        <th class="w-1">Img</th>
+                        <th>Producto</th>
+                        <th class="text-center">SKU</th>
+                        <th class="text-right">Precio</th>
+                        <th class="text-center">Stock</th>
+                        <th class="text-center">Mínimo</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in object_list %}
+                    <tr class="{% if producto.necesita_reposicion %}table-warning{% endif %}">
+                        <td>
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-img rounded">
+                            {% else %}
+                                <div class="product-placeholder rounded bg-light text-center text-muted">
+                                    <i class="fas fa-box fa-lg"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="product-name font-weight-bold">{{ producto.nombre }}</div>
+                            <div class="small text-muted">{{ producto.descripcion }}</div>
+                        </td>
+                        <td class="text-center text-monospace small">{{ producto.sku }}</td>
+                        <td class="text-right price text-primary font-weight-bold">${{ producto.precio }}</td>
+                        <td class="text-center">
+                            {{ producto.stock }}
+                            {% if producto.necesita_reposicion %}
+                                <i class="fas fa-exclamation-circle text-danger ml-1" title="Stock bajo"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center small">{{ producto.stock_minimo }}</td>
+                        <td class="text-center">
+                            {% if producto.necesita_reposicion %}
+                                <span class="badge badge-warning">Bajo</span>
+                            {% else %}
+                                <span class="badge badge-success">OK</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'productos:producto_detail' producto.pk %}" class="btn btn-sm btn-light border mr-1" title="Ver"><i class="fas fa-eye"></i></a>
+                                <a href="{% url 'productos:producto_update' producto.pk %}" class="btn btn-sm btn-primary mr-1" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'productos:movimiento_create' producto.pk %}" class="btn btn-sm btn-success" title="Movimiento"><i class="fas fa-exchange-alt"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <!-- Pagination -->
 {% if is_paginated %}

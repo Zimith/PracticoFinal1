@@ -20,7 +20,7 @@ class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListVie
     model = Venta
     template_name = 'ventas/venta_list.html'
     context_object_name = 'ventas'
-    paginate_by = 20
+    paginate_by = 5
 
     def get_queryset(self):
         """Filter by date range (dd/mm/yyyy) and by cliente id from GET params.

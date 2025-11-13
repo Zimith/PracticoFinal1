@@ -12,7 +12,7 @@ class ClienteListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListV
     model = Cliente
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
-    paginate_by = 20
+    paginate_by = 5
 
     def get_queryset(self):
         qs = super().get_queryset()

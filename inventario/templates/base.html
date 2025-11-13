@@ -5,84 +5,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Inventario - {% block title %}{% endblock %}</title>
+    <title>Sistema de Simulación de Ventas - {% block title %}{% endblock %}</title>
     {% bootstrap_css %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
-        .product-img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-        }
-        .badge-lg {
-            font-size: 0.9rem;
-            padding: 0.35rem 0.65rem;
-        }
+        html, body { height: 100%; }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .navbar-brand { font-weight: 700; letter-spacing: .2px; }
+        .table-responsive { overflow-x: auto; }
+        .product-img { width: 50px; height: 50px; object-fit: cover; }
+        .badge-lg { font-size: 0.9rem; padding: 0.35rem 0.65rem; }
+        /* Main content spacing so footer doesn't cover content when fixed */
+        .content-main { flex: 1 0 auto; padding-bottom: 120px; }
+        /* Footer - fixed to bottom, full width */
+        .app-footer { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; background: #f8f9fa; border-top: 1px solid rgba(0,0,0,.05); padding: 0.9rem 0; z-index: 1030; }
+        .app-footer .small { color: #6c757d; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'productos:producto_list' %}">
-                <i class="fas fa-boxes"></i> Sistema de Inventario
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'productos:producto_list' %}">
+                <i class="fas fa-chart-line fa-lg text-primary me-2"></i>
+                <div>
+                  <div style="line-height:1;">Sistema de Simulación de Ventas</div>
+                  <small class="text-muted">Panel de Inventario</small>
+                </div>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'productos:producto_list' %}">
-                            <i class="fas fa-list"></i> Productos
-                        </a>
+                        <a class="nav-link" href="{% url 'productos:producto_list' %}"><i class="fas fa-boxes me-1"></i> Productos</a>
                     </li>
-
-                    {# Nuevo Producto link removed by request #}
-
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'clientes:cliente_list' %}">
-                            <i class="fas fa-user-friends"></i> Clientes
-                        </a>
+                        <a class="nav-link" href="{% url 'clientes:cliente_list' %}"><i class="fas fa-user-friends me-1"></i> Clientes</a>
                     </li>
-
-                    {# Nuevo Cliente link removed by request #}
-
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'productos:stock_bajo_list' %}">
-                            <i class="fas fa-exclamation-triangle"></i> Stock Bajo
-                        </a>
+                        <a class="nav-link" href="{% url 'ventas:venta_list' %}"><i class="fas fa-cash-register me-1"></i> Ventas</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'ventas:venta_list' %}">
-                            <i class="fas fa-cash-register"></i> Ventas
-                        </a>
+                        <a class="nav-link" href="{% url 'productos:stock_bajo_list' %}"><i class="fas fa-exclamation-triangle me-1 text-warning"></i> Stock Bajo</a>
                     </li>
-
-                    {# Nueva Venta link removed by request #}
                 </ul>
-                <ul class="navbar-nav ml-auto">
+
+                <form class="d-flex me-3" method="get" action="{% url 'productos:producto_list' %}">
+                    <input class="form-control form-control-sm me-2" type="search" placeholder="Buscar productos..." aria-label="Search" name="q" value="{{ request.GET.q|default:'' }}">
+                    <button class="btn btn-sm btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+
+                <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
-                    <li class="nav-item d-flex align-items-center mr-2">
-                        <span class="navbar-text">Hola, {{ user.get_full_name|default:user.username }}{% if user.is_superuser %} <small class="text-muted">(admin)</small>{% endif %}</span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Salir</a>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle fa-lg"></i> {{ user.get_short_name|default:user.username }}
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        {% if user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Salir</a></li>
+                      </ul>
                     </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a></li>
                     {% if ACCOUNT_ALLOW_REGISTRATION %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Registrarse</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Registrarse</a></li>
                     {% endif %}
                     {% endif %}
                 </ul>
@@ -90,7 +83,7 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <main class="container content-main mt-4 mb-5">
         {% bootstrap_messages %}
         
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -102,6 +95,19 @@
         {% endblock %}
     </div>
 
-    {% bootstrap_javascript jquery='full' %}
+        {% bootstrap_javascript jquery='full' %}
+        <footer class="app-footer mt-auto">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <strong>Sistema de Simulación de Ventas</strong>
+                        <div class="small">Herramienta de demostración · Proyecto académico</div>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end small text-muted">
+                        © {% now "Y" %} • Version 1.0 • Hecho con <i class="fas fa-heart text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </footer>
 </body>
 </html>

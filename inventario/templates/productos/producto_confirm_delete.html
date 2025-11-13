@@ -8,11 +8,34 @@
 <div class="card">
     <div class="card-body">
         <p>¿Seguro que deseas eliminar el producto <strong>{{ object.nombre }}</strong>?</p>
-        <form method="post">
+        {% comment %} Show number of related sale items (if any) to inform the user {% endcomment %}
+        {% with related_items=object.itemventa_set.count %}
+            {% if related_items %}
+            <div class="alert alert-warning">
+                Este producto tiene <strong>{{ related_items }}</strong> items de venta relacionados.
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" class="d-inline-block">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Eliminar</button>
+            {% if object.itemventa_set.count %}
+                <button type="submit" class="btn btn-danger" disabled>Eliminar</button>
+            {% else %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            {% endif %}
             <a href="{% url 'productos:producto_detail' object.pk %}" class="btn btn-secondary">Cancelar</a>
         </form>
+
+        {% comment %} Forced delete form: always available when there are related items. It will remove related
+           ItemVenta and Venta records and then delete the product. We keep server-side checks as well. {% endcomment %}
+        {% if object.itemventa_set.count %}
+        <form method="post" class="d-inline-block ml-2" onsubmit="return confirm('Confirmar borrado FORZADO del producto y las ventas relacionadas. Esta acción es irreversible.');">
+            {% csrf_token %}
+            <input type="hidden" name="force" value="1">
+            <button type="submit" class="btn btn-danger">Forzar eliminación (eliminar ventas relacionadas)</button>
+        </form>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

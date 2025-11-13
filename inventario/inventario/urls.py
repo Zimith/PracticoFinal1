@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import os
+import re
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import re_path
+from django.views.static import serve
 from django.http import HttpResponse
 
 urlpatterns = [
@@ -33,3 +37,11 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+elif os.environ.get('SERVE_MEDIA', '0') == '1':
+    # Serve MEDIA files in demo/CI environments even when DEBUG is False.
+    prefix = settings.MEDIA_URL or '/media/'
+    # build a regex like ^media/(?P<path>.*)$ (strip leading slash)
+    escaped = re.escape(prefix.lstrip('/'))
+    urlpatterns += [
+        re_path(rf'^{escaped}(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]

@@ -10,6 +10,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q, F
+from django.db.models.deletion import ProtectedError
+from django.db import transaction
 from django.utils import timezone
 from .models import Producto, MovimientoStock
 from .forms import ProductoForm, MovimientoStockForm, AjusteStockForm
@@ -23,7 +25,7 @@ class ProductoListView(ListView):
     model = Producto
     template_name = "productos/producto_list.html"
     context_object_name = "productos"
-    paginate_by = 20
+    paginate_by = 5
 
     def get_queryset(self):
         """Sobrescribe para permitir el filtrado por stock bajo."""
@@ -129,9 +131,53 @@ class ProductoDeleteView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, De
     success_url = reverse_lazy("productos:producto_list")
 
     def delete(self, request, *args, **kwargs):
-        """Sobrescribe para mostrar un mensaje de éxito después de eliminar."""
-        messages.success(self.request, "Producto eliminado exitosamente")
-        return super().delete(request, *args, **kwargs)
+        """Sobrescribe para mostrar un mensaje de éxito o un error amistoso si la
+        eliminación está protegida por relaciones (p. ej. items de venta con
+        on_delete=PROTECT)."""
+        from django.db.models.deletion import ProtectedError
+
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(self.request, "Producto eliminado exitosamente")
+            return response
+        except ProtectedError:
+            # No eliminar si existen relaciones protegidas (ventas/items)
+            messages.error(request, "No se puede eliminar el producto porque tiene registros relacionados (ventas u otros). Revisa las ventas o desactiva el producto en su lugar.")
+            return redirect("productos:producto_detail", pk=self.get_object().pk)
+
+    def post(self, request, *args, **kwargs):
+        """Handle POST from the confirmation form and catch ProtectedError directly
+        to avoid a 500 error when related objects protect deletion."""
+        self.object = self.get_object()
+        # If the user asked for a forced delete, remove related sale items and
+        # the sales before deleting the product. Do it in a transaction to
+        # keep DB consistency.
+        if request.POST.get('force'):
+            from ventas.models import Venta, ItemVenta
+            try:
+                with transaction.atomic():
+                    related_items = ItemVenta.objects.filter(producto=self.object)
+                    ventas_ids = set(related_items.values_list('venta_id', flat=True))
+                    # Delete the related items
+                    related_items.delete()
+                    # Delete the ventas that referenced those items
+                    Venta.objects.filter(id__in=ventas_ids).delete()
+                    # Now delete the product itself
+                    self.object.delete()
+
+                messages.success(request, "Producto y ventas relacionadas eliminados exitosamente (borrado forzado).")
+                return redirect(self.success_url)
+            except Exception as e:
+                messages.error(request, f"Error al forzar el borrado: {e}")
+                return redirect("productos:producto_detail", pk=self.object.pk)
+
+        try:
+            self.object.delete()
+            messages.success(request, "Producto eliminado exitosamente")
+            return redirect(self.success_url)
+        except ProtectedError:
+            messages.error(request, "No se puede eliminar el producto porque tiene registros relacionados (ventas u otros). Revisa las ventas o desactiva el producto en su lugar.")
+            return redirect("productos:producto_detail", pk=self.object.pk)
     
 
 class MovimientoStockCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, CreateView):
@@ -239,7 +285,7 @@ class StockBajoListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, Lis
     model = Producto
     template_name = "productos/stock_bajo_list.html"
     context_object_name = "productos"
-    paginate_by = 20
+    paginate_by = 5
 
     def get_queryset(self):
         """
