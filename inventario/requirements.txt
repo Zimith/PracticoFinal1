@@ -12,4 +12,3 @@ gunicorn
 psycopg2-binary
 django-allauth==0.59.0
 whitenoise==6.11.0
-weasyprint==59.0

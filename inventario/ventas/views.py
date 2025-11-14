@@ -13,15 +13,7 @@ from django.contrib import messages
 from .models import Venta, ItemVenta
 from productos.models import Producto
 from .forms import VentaForm, ItemVentaFormSet
-from django.template.loader import render_to_string
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-
-try:
-    # optional import — available once we installed the package
-    from weasyprint import HTML
-except Exception:
-    HTML = None
 
 
 class VentaListView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, ListView):
@@ -222,24 +214,6 @@ class VentaDetailView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, Detai
     model = Venta
     template_name = 'ventas/venta_detail.html'
     context_object_name = 'venta'
-
-
-class VentaPDFView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
-    permission_required = 'ventas.view_venta'
-
-    def get(self, request, pk, *args, **kwargs):
-        venta = get_object_or_404(Venta, pk=pk)
-
-        if HTML is None:
-            return HttpResponse('WeasyPrint no está instalado en el sistema.', status=500)
-
-        html_string = render_to_string('ventas/venta_pdf.html', {'venta': venta, 'request': request})
-        # base_url ensures static files (if referenced) are resolved
-        pdf = HTML(string=html_string, base_url=request.build_absolute_uri('/')).write_pdf()
-
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = f'inline; filename=venta_{venta.codigo}.pdf'
-        return response
 
 
 class VentaCreateView(LoginRequiredMixin, FriendlyPermissionRequiredMixin, View):
