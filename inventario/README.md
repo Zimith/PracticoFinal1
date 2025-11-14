@@ -43,6 +43,11 @@ Para simplificar la evaluación, la imagen está configurada con credenciales po
 - Usuario ventas: usuario `demo_ventas` / contraseña `DemoPass123!`
 - Usuario stock: usuario `demo_stock` / contraseña `DemoPass123!`
 
+Nota sobre backup de base de datos:
+- El archivo `full_backup.json` (dump generado con `manage.py dumpdata`) contiene los datos de la base
+	y puede incluir emails y hashes de contraseñas. Si el profesor lo pidió, añadilo al repo en la rama
+	indicada; si el repo será público, considerar anonimizarlo antes de subir.
+
 Así que el flujo para el profesor es simplemente:
 
 ```powershell

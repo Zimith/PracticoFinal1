@@ -18,20 +18,25 @@ import importlib.util
 # doesn't crash when the package is missing in local dev venvs
 USE_WHITENOISE = importlib.util.find_spec('whitenoise') is not None
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Construye rutas dentro del proyecto así: BASE_DIR / 'subdir'.
+# BASE_DIR apunta a la carpeta del repositorio que contiene manage.py
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# Ajustes rápidos para desarrollo — no aptos para producción
+# Revisar antes de desplegar: SECRET_KEY, DEBUG, ALLOWED_HOSTS
+# Ver checklist: https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# ADVERTENCIA: mantener la clave secreta fuera del repositorio en producción.
+# En producción sobrescribir por variable de entorno o archivo .env y NO commitear.
 SECRET_KEY = 'django-insecure-g6cdfwd0hzg5xv_oin*$be^ce-++^h_elh&19j&$&k+j5mkcsf'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# ADVERTENCIA: no dejar DEBUG activado en producción.
+# Para producción establecer DEBUG=0 en las variables de entorno (p. ej. en docker-compose).
 DEBUG = os.environ.get('DEBUG', '1') == '1'
 
-# Allow hosts from env or default to localhost and 127.0.0.1
+# Hosts permitidos: por defecto localhost y 127.0.0.1
+# En producción configurar ALLOWED_HOSTS como variable de entorno (separada por comas)
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
@@ -56,6 +61,10 @@ INSTALLED_APPS = [
     'allauth.account',
 ]
 
+# Notas:
+# - `productos`, `clientes`, `ventas` son las aplicaciones principales del proyecto.
+# - `allauth` se utiliza únicamente para login; el registro se deshabilita en la configuración.
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 ]
@@ -64,6 +73,7 @@ MIDDLEWARE = [
 # raising ModuleNotFoundError on developers' machines that don't have
 # whitenoise in their virtualenv.
 if USE_WHITENOISE:
+    # WhiteNoise permite servir archivos estáticos desde la imagen sin necesidad de nginx
     MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
 
 MIDDLEWARE += [
@@ -122,6 +132,9 @@ else:
         }
     }
 
+# Nota: cuando se ejecuta en Docker, docker-compose establece DB_HOST=db y se usa Postgres.
+# Si ejecutás manage.py localmente sin DB_HOST, se usará sqlite (db.sqlite3).
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -158,10 +171,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATICFILES_DIRS: carpetas adicionales donde buscar archivos estáticos antes de collectstatic
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+# STATIC_ROOT: carpeta destino donde collectstatic guarda los archivos para producción
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Si STATICFILES_DIRS apunta a carpetas que no existen verás la advertencia W004.
+# Se creó una carpeta `static/` vacía en el repo para evitar esa advertencia.
 
 # Use WhiteNoise storage if available, otherwise fall back to the default
 # staticfiles storage so local runserver doesn't crash when whitenoise is

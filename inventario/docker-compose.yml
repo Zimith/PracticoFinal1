@@ -1,4 +1,6 @@
-version: '3.8'
+## Docker Compose para la aplicación Inventario
+## Nota: la clave `version` es obsoleta con Compose v2+; no es necesaria.
+
 services:
   db:
     image: postgres:15
@@ -17,6 +19,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      # Configuración por defecto para demo; sobrescribí las variables en .env si querés
       - DEBUG=0
       - SECRET_KEY=changeme123
       - ADMIN_PASS=AdminPass123

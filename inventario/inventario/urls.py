@@ -27,7 +27,6 @@ from django.http import HttpResponse
 urlpatterns = [
     # Simple health endpoint to diagnose redirect loops (no auth)
     path('health/', lambda request: HttpResponse('ok'), name='health'),
-    path('', include('productos.urls')),
     path('admin/', admin.site.urls),
     path("productos/", include("productos.urls")),
     path("clientes/", include("clientes.urls")),

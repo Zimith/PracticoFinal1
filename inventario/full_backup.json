@@ -1,0 +1,1528 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "administradores",
+    "permissions": [
+      [
+        "add_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "change_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "delete_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "view_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "add_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "change_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "delete_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "view_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "add_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "change_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "delete_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "view_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "add_group",
+        "auth",
+        "group"
+      ],
+      [
+        "change_group",
+        "auth",
+        "group"
+      ],
+      [
+        "delete_group",
+        "auth",
+        "group"
+      ],
+      [
+        "view_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "change_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "delete_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "view_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "add_user",
+        "auth",
+        "user"
+      ],
+      [
+        "change_user",
+        "auth",
+        "user"
+      ],
+      [
+        "delete_user",
+        "auth",
+        "user"
+      ],
+      [
+        "view_user",
+        "auth",
+        "user"
+      ],
+      [
+        "add_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "change_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "delete_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "view_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "change_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "delete_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "view_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "change_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "delete_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "view_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "add_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "change_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "delete_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "view_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "add_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "change_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "delete_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "view_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "add_site",
+        "sites",
+        "site"
+      ],
+      [
+        "change_site",
+        "sites",
+        "site"
+      ],
+      [
+        "delete_site",
+        "sites",
+        "site"
+      ],
+      [
+        "view_site",
+        "sites",
+        "site"
+      ],
+      [
+        "add_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "change_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "delete_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "view_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "add_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "change_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "delete_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "view_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "add_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "change_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "delete_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "view_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "add_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "change_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "delete_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "view_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "add_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "change_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "delete_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "view_venta",
+        "ventas",
+        "venta"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "stock",
+    "permissions": [
+      [
+        "add_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "change_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "delete_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "view_movimientostock",
+        "productos",
+        "movimientostock"
+      ],
+      [
+        "add_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "change_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "delete_producto",
+        "productos",
+        "producto"
+      ],
+      [
+        "view_producto",
+        "productos",
+        "producto"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "ventas",
+    "permissions": [
+      [
+        "add_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "change_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "delete_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "view_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "add_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "change_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "delete_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "view_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "add_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "change_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "delete_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "view_venta",
+        "ventas",
+        "venta"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "yo",
+    "permissions": [
+      [
+        "add_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "change_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "delete_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "view_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "add_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "change_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "delete_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "view_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "add_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "change_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "delete_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "view_venta",
+        "ventas",
+        "venta"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "pepito",
+    "permissions": [
+      [
+        "add_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "change_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "delete_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "view_cliente",
+        "clientes",
+        "cliente"
+      ],
+      [
+        "add_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "change_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "delete_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "view_itemventa",
+        "ventas",
+        "itemventa"
+      ],
+      [
+        "add_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "change_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "delete_venta",
+        "ventas",
+        "venta"
+      ],
+      [
+        "view_venta",
+        "ventas",
+        "venta"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$RPHrzh5dVjOpnq7qOHQ10b$Ggt/VZD3mLx3oz4O3mzBCkuJ4erFapepdTLp3dSMFV0=",
+    "last_login": "2025-11-08T00:10:08.206Z",
+    "is_superuser": true,
+    "username": "rodri",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:09:40.170Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$2YcHhIaFHGwQwrRgD9VpE3$fcem3EbGGtWg3BK3qY05jwsN44kIR8UqE+bwgDwMyu4=",
+    "last_login": "2025-11-08T00:12:11.473Z",
+    "is_superuser": false,
+    "username": "pipe",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:12:10.876Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$SqRrXhL5AB2fnjYKkF9gyK$sXf+h981LG3OtUApmMQ3TSGBwEtW4E4r5Ub81mKrr78=",
+    "last_login": "2025-11-08T00:14:21.378Z",
+    "is_superuser": false,
+    "username": "milanesa",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:14:20.787Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$0DoW0jffGZ83Etvefl6N73$s6MShuU1cm1tmdPWsFLLsHtaoZLbVPE8J3ZE2/zDMfw=",
+    "last_login": "2025-11-08T00:25:49.937Z",
+    "is_superuser": false,
+    "username": "rodrigo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:15:31.865Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$zaeAC6sqzEV7ntVo6sUacv$h7YCRsGn+R4tu6MRycGlmsLxtcduox1eA9O9ZH4bwD0=",
+    "last_login": "2025-11-13T23:11:43.082Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:26:42.213Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tmAD8FDLrN4RuXgD2C1AwE$v00bSZD7SyWdfw16PkQR8BJnM58thcNfeeTYX7mHNtk=",
+    "last_login": "2025-11-13T23:05:46.259Z",
+    "is_superuser": false,
+    "username": "demo_ventas",
+    "first_name": "",
+    "last_name": "",
+    "email": "demo_ventas@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:26:42.795Z",
+    "groups": [
+      [
+        "ventas"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$vEVgw9cxdPd7GEPH3TU4eY$SzhUh1tFwrtrgrZOlzZBjoW2PBU3QOb3oAGZcPtgvv4=",
+    "last_login": "2025-11-13T23:06:13.881Z",
+    "is_superuser": false,
+    "username": "demo_stock",
+    "first_name": "",
+    "last_name": "",
+    "email": "demo_stock@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-08T00:26:43.416Z",
+    "groups": [
+      [
+        "stock"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$HiyZiaVVg9JvVMIVmhEUbo$Y5Q/hPIA5GYWj6SwyqcgF9qZaImJuEsDBQaf5VOpVGM=",
+    "last_login": "2025-11-13T02:13:50.649Z",
+    "is_superuser": true,
+    "username": "miga",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-12T00:05:51.824Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ziAnGoOaERyz0V1VjLwn9c$Xolz42VZy9GW/9fNMPDqMur/C7jCDk7RJVMh/r7rGGo=",
+    "last_login": "2025-11-12T00:46:38.602Z",
+    "is_superuser": false,
+    "username": "yo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-12T00:37:56Z",
+    "groups": [
+      [
+        "yo"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$EyXcq3LJl1wF2e3bXsqb25$Dj1iwl/O8TdLfHEDrdn/4H6Pn6GyD8wk0WeMZEcepDw=",
+    "last_login": "2025-11-12T20:37:09.924Z",
+    "is_superuser": false,
+    "username": "pepito",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-12T20:36:21Z",
+    "groups": [
+      [
+        "pepito"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "example.com",
+    "name": "example.com"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4ae7by7k1juw00vvwuchln83cakzlitm",
+  "fields": {
+    "session_data": ".eJxVj0FuwyAQRe8ya8sCDMZ42X1PUFXWAOOYtobIYDVRlLvXpNlkN5r352n-DdC5tMcy4V4WiiU4LCHFaaWyJJ9h_LjB_wwjnDHn37R5aAALjFz3wvCODbrtOyE0HxrYM20RVzrSazgh3D8beLinSqZQNQO87Cy6b4oV-C-Mp9S6FMsWbFsj7ZPm9j15-nl7Zl8EC-bluDbaEyk1D1oq2TMxO6Wt6a1QxIXxxnWaMelk56Xis_LOSnFAjrK3hrvHV5lyrvXpcg7bFUZ2_wO0Pl8w:1vJ0E3:3QzSboj_EN0kxWdg_n0j-ySJ-6ZFFNmdmtYK8HdErZ0",
+    "expire_date": "2025-11-26T02:04:47.646Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4z7xmkz2abudjdl4u0azttrtxmltynrj",
+  "fields": {
+    "session_data": ".eJxVj0FuwyAQRe8yawthCBC87D4nqCprgKGmrSEyWEkV5e4tbTbZjf57etLcAL0ve24z7m2h3JLHlkqeV2pLCRWm1xv83zDBGWu9lC3AANhgGo2W3CjFJeNGG2vEAHulLeNKvzaGNWW4vw3wF587mlPvKHjaHPpPyh2ED8zvhfmS25Yc6wp70MpOJdDXy8N9CixYl55VMsjx6ElLJcnZaIXWxkUhjtp4ftA6Rq49Bu4OxqKw3ipFDoV0fLSR92ilWvv_dD2n7Rsmfv8BKFZfyw:1vJgTf:JI2gFe0dezHVilNfIh0M1pu2Rs2zal8yWcqEadT1cLM",
+    "expire_date": "2025-11-27T23:11:43.089Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "84p0t0nc85r4htchl19zi2kea5o7qmgh",
+  "fields": {
+    "session_data": ".eJxVj0FuwyAQRe8ya8vCYMB42X1OUFXWAENNW0NksJIqyt1b2myyG_339KS5ATqXj1QXPOpKqUaHNea0bFTX7AvMrzf4v2GGM5ZyybuHDrDCPGglmOZKsp6PatAT7-AotCfc6NdGv8UE97cO_uJLQ0tsHQlPm0X3SakB_4HpPfcup7pH2zelf9DSn7Knr5eH-xRYsawtK4UXw-RICSnImmC4UtoGzielHRuVCoEph57ZURvkxhkpySIXlg0msBYtVEr7n67nuH_DzO4_IZRfww:1vJfje:9LRQQAbj_-fKsWQ1vWwZHdycmh3PV_YjMmnlhP0Uftg",
+    "expire_date": "2025-11-27T22:24:10.264Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "fa8tr9jh8z2rzn137hjez23qah5kay3x",
+  "fields": {
+    "session_data": ".eJxVj8FuwyAQRP9lz5YFNmDjY-_9gqqyFljHtDVEBquJovx7Ic0le1rtmx3N3ACtjUfIMx55pZC9xexjmDfKa3QJpo8b_O8wwRlT-o27gwYww8QH1bMyPWuV6EbFugaORHvAjYp68yeE-2cDD--5ktlXmxFebgbtN4UK3BeGU2xtDHn3pq2S9klT-x4d_bw9tS8GK6a1fOvBEUm5jIOQooRZrByMVqaTxDvttO0HxoQVvROSL9JZI7oCOQplNLePVIlSqvXpcvb7FSZ2_wOepV8X:1vJMqM:kYva_fnNjA34G6QqAyxHNS3o_HXEjm2Ysh-ocAt00k8",
+    "expire_date": "2025-11-27T02:13:50.662Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ptfa3q4wmlwmq7s3k1j6zohtagya15qd",
+  "fields": {
+    "session_data": ".eJxVkLtuwzAMAP-FsyFY1svy2D1fEAQGLdG12kYyLBlJEeTfG6VZshG84w28ATqX9lhG3MtCsQSHJaQ4nqksyWcYjjf4n2GAFXO-pM1DA1hg4EZ31ti-s8zyXnEjG9gzbRHPVG1aQ0lwPzXwrI-VjaGGeAtvywndN8VK_BfGz8RcimULE6sKe9HMDsnTz8fLfQssmJfHtbLOiFlosuSE1b6fsUXZKdlNSgmUhMJMSjiNxGerzIzcGC5I9VxajapGM-VcP0DXNWy_MLT3PxsgYJo:1vJHaX:49_09DnknMBrV6_XPG0bkIZKwP044YIPAEdcrEEUZIc",
+    "expire_date": "2025-11-26T20:37:09.929Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uwchqosum2wad3hz3tmzc5dzu73jlads",
+  "fields": {
+    "session_data": ".eJxVkMtugzAQRf9l1gjZxk-W3ecLqgoN9lBoix1hk7SK8u_FbTbZjeaeOSPdG6D3aY9lwL3MFMvisSwpDiuVOYUM_esN_mfo4Yw5X9MWoAEs0HOjhdLKatdywYXjuoE90xZxpYMOtKbhcjgxw_2tgb8XQwWGpdo0PO1G9J8UaxA-ML6n1qdYtmVsK9I-0tyeUqCvlwf7JJgxz8d1RzxoxyQT0hpleNdNTHlhhHfMS2elU8qabuJSafJ-4nxCoUdUVk7BMlOlmXKuLdD3edl-oGf3X6QbYW4:1vHXtl:kM_VCzzTA2DvC4UHufBWCvLVJrGFHvN24v3M8kZbf0k",
+    "expire_date": "2025-11-22T01:37:49.137Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 12,
+  "fields": {
+    "nombre": "peara",
+    "sku": "A08D10B7",
+    "descripcion": "afaf",
+    "precio": "23123.00",
+    "stock": 438,
+    "stock_minimo": 5,
+    "imagen": "productos/15c6660f-8778-429f-9aa7-c39eef45c02a.png",
+    "fecha_creacion": "2025-11-13T22:24:24.679Z",
+    "fecha_actualizacion": "2025-11-13T23:14:59.114Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 13,
+  "fields": {
+    "nombre": "31231",
+    "sku": "4B75FC9E",
+    "descripcion": "3123",
+    "precio": "333.00",
+    "stock": 2,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:48:42.157Z",
+    "fecha_actualizacion": "2025-11-13T22:51:07.808Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 14,
+  "fields": {
+    "nombre": "13123",
+    "sku": "F675A4EE",
+    "descripcion": "313123",
+    "precio": "124124.00",
+    "stock": 131231,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:28.235Z",
+    "fecha_actualizacion": "2025-11-13T22:56:28.235Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 15,
+  "fields": {
+    "nombre": "123123",
+    "sku": "3A1D6BF7",
+    "descripcion": "1312323",
+    "precio": "13213123.00",
+    "stock": 312312,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:33.657Z",
+    "fecha_actualizacion": "2025-11-13T22:56:33.657Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 16,
+  "fields": {
+    "nombre": "12312312",
+    "sku": "563E4C00",
+    "descripcion": "3123123",
+    "precio": "2323.00",
+    "stock": 1231521,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:41.503Z",
+    "fecha_actualizacion": "2025-11-13T23:06:31.301Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 17,
+  "fields": {
+    "nombre": "1231233",
+    "sku": "23B0270A",
+    "descripcion": "3313",
+    "precio": "313.00",
+    "stock": 123087,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:46.672Z",
+    "fecha_actualizacion": "2025-11-13T23:13:21.102Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 18,
+  "fields": {
+    "nombre": "12313",
+    "sku": "AAA2FB84",
+    "descripcion": "123123",
+    "precio": "123.00",
+    "stock": 989,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:54.285Z",
+    "fecha_actualizacion": "2025-11-13T23:13:39.501Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 19,
+  "fields": {
+    "nombre": "13123",
+    "sku": "9D39192B",
+    "descripcion": "13123",
+    "precio": "12313.00",
+    "stock": 13213,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:56:58.754Z",
+    "fecha_actualizacion": "2025-11-13T22:56:58.754Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 20,
+  "fields": {
+    "nombre": "31231",
+    "sku": "2472354D",
+    "descripcion": "123123",
+    "precio": "123123.00",
+    "stock": 1231,
+    "stock_minimo": 5,
+    "imagen": "",
+    "fecha_creacion": "2025-11-13T22:57:09.468Z",
+    "fecha_actualizacion": "2025-11-13T22:57:09.468Z"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 19,
+  "fields": {
+    "producto": 12,
+    "tipo": "entrada",
+    "cantidad": 444,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:24:24.706Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 20,
+  "fields": {
+    "producto": 13,
+    "tipo": "entrada",
+    "cantidad": 4,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:48:42.163Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 21,
+  "fields": {
+    "producto": 14,
+    "tipo": "entrada",
+    "cantidad": 131231,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:28.242Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 22,
+  "fields": {
+    "producto": 15,
+    "tipo": "entrada",
+    "cantidad": 312312,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:33.663Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 23,
+  "fields": {
+    "producto": 16,
+    "tipo": "entrada",
+    "cantidad": 1231321,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:41.509Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 24,
+  "fields": {
+    "producto": 17,
+    "tipo": "entrada",
+    "cantidad": 123123,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:46.678Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 25,
+  "fields": {
+    "producto": 18,
+    "tipo": "entrada",
+    "cantidad": 1312,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:54.292Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 26,
+  "fields": {
+    "producto": 19,
+    "tipo": "entrada",
+    "cantidad": 13213,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:56:58.760Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 27,
+  "fields": {
+    "producto": 20,
+    "tipo": "entrada",
+    "cantidad": 1231,
+    "motivo": "Stock inicial",
+    "fecha": "2025-11-13T22:57:09.474Z",
+    "usuario": "admin"
+  }
+},
+{
+  "model": "productos.movimientostock",
+  "pk": 28,
+  "fields": {
+    "producto": 16,
+    "tipo": "entrada",
+    "cantidad": 232,
+    "motivo": "323",
+    "fecha": "2025-11-13T23:06:31.300Z",
+    "usuario": "demo_stock"
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 2,
+  "fields": {
+    "nombre": "Juan",
+    "apellido": "Guanchope",
+    "documento": "3123",
+    "email": "rodrigo8a1234@gmail.com",
+    "telefono": "1231231",
+    "direccion": null
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 3,
+  "fields": {
+    "nombre": "31231",
+    "apellido": "23123",
+    "documento": "1231",
+    "email": "23123123@mga.com",
+    "telefono": "1231",
+    "direccion": "2312"
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 4,
+  "fields": {
+    "nombre": "3123",
+    "apellido": "1231",
+    "documento": "23",
+    "email": "rodrigo8a1234@gmail.com",
+    "telefono": "12312",
+    "direccion": null
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 5,
+  "fields": {
+    "nombre": "1231",
+    "apellido": "12312",
+    "documento": "123",
+    "email": "123123@3123123.com",
+    "telefono": "12312",
+    "direccion": "12312"
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 6,
+  "fields": {
+    "nombre": "123",
+    "apellido": "12312",
+    "documento": "12312",
+    "email": "31231@123123.com",
+    "telefono": "232",
+    "direccion": null
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 7,
+  "fields": {
+    "nombre": "232",
+    "apellido": "32323",
+    "documento": "323",
+    "email": null,
+    "telefono": null,
+    "direccion": null
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 2,
+  "fields": {
+    "codigo": "B9A4E0BBAF",
+    "cliente": 2,
+    "fecha": "2025-11-07T23:54:31.037Z",
+    "total": "0.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 6,
+  "fields": {
+    "codigo": "45BB7A7A5B",
+    "cliente": 3,
+    "fecha": "2025-11-13T22:51:07.804Z",
+    "total": "666.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 7,
+  "fields": {
+    "codigo": "ED7384BED9",
+    "cliente": 2,
+    "fecha": "2025-11-13T22:53:43.474Z",
+    "total": "23123.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 8,
+  "fields": {
+    "codigo": "2656B77E3C",
+    "cliente": 5,
+    "fecha": "2025-11-13T23:01:10.164Z",
+    "total": "626.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 9,
+  "fields": {
+    "codigo": "51244040BC",
+    "cliente": 6,
+    "fecha": "2025-11-13T23:01:16.922Z",
+    "total": "10016.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 10,
+  "fields": {
+    "codigo": "DE62B27491",
+    "cliente": 5,
+    "fecha": "2025-11-13T23:01:27.479Z",
+    "total": "74336.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 11,
+  "fields": {
+    "codigo": "7D832743F6",
+    "cliente": 3,
+    "fecha": "2025-11-13T23:13:21.098Z",
+    "total": "626.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 12,
+  "fields": {
+    "codigo": "4C77349CDC",
+    "cliente": 2,
+    "fecha": "2025-11-13T23:13:39.497Z",
+    "total": "39729.00"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 13,
+  "fields": {
+    "codigo": "8A85317682",
+    "cliente": 5,
+    "fecha": "2025-11-13T23:14:59.109Z",
+    "total": "115615.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 5,
+  "fields": {
+    "venta": 6,
+    "producto": 13,
+    "cantidad": 2,
+    "precio_unitario": "333.00",
+    "subtotal": "666.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 6,
+  "fields": {
+    "venta": 7,
+    "producto": 12,
+    "cantidad": 1,
+    "precio_unitario": "23123.00",
+    "subtotal": "23123.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 7,
+  "fields": {
+    "venta": 8,
+    "producto": 17,
+    "cantidad": 2,
+    "precio_unitario": "313.00",
+    "subtotal": "626.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 8,
+  "fields": {
+    "venta": 9,
+    "producto": 17,
+    "cantidad": 32,
+    "precio_unitario": "313.00",
+    "subtotal": "10016.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 9,
+  "fields": {
+    "venta": 10,
+    "producto": 16,
+    "cantidad": 32,
+    "precio_unitario": "2323.00",
+    "subtotal": "74336.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 10,
+  "fields": {
+    "venta": 11,
+    "producto": 17,
+    "cantidad": 2,
+    "precio_unitario": "313.00",
+    "subtotal": "626.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 11,
+  "fields": {
+    "venta": 12,
+    "producto": 18,
+    "cantidad": 323,
+    "precio_unitario": "123.00",
+    "subtotal": "39729.00"
+  }
+},
+{
+  "model": "ventas.itemventa",
+  "pk": 12,
+  "fields": {
+    "venta": 13,
+    "producto": 12,
+    "cantidad": 5,
+    "precio_unitario": "23123.00",
+    "subtotal": "115615.00"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-11-12T00:26:27.153Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "3",
+    "object_repr": "ventas",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-11-12T00:35:43.061Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "4",
+    "object_repr": "yo",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-11-12T00:37:57.064Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "9",
+    "object_repr": "yo",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-11-12T00:38:18.687Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "9",
+    "object_repr": "yo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-11-12T00:46:23.806Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "9",
+    "object_repr": "yo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-11-12T00:56:33.683Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "3",
+    "object_repr": "ventas",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-11-12T01:14:17.545Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "4",
+    "object_repr": "yo",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-11-12T20:35:43.812Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "5",
+    "object_repr": "pepito",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-11-12T20:36:21.986Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "10",
+    "object_repr": "pepito",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2025-11-12T20:36:37.062Z",
+    "user": [
+      "miga"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "10",
+    "object_repr": "pepito",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+}
+]
