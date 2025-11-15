@@ -185,14 +185,9 @@ Entregables esperados (para la cátedra)
 - `full_backup.json` (opcional y anonimizado si el repo será público).
 
 Autor
-- [Tu nombre aquí] — (reemplazá por tu nombre o usuario GitHub)
+- Lucas Rodrigo Ochoa 
 
 Licencia
 - Proyecto desarrollado con fines educativos. No comercializar sin autorización.
 
-¿Querés que:
-- A) Reemplace el `README.md` en `inventario/` con esta versión y haga el commit? (si sí, confirmame el mensaje de commit)
-- B) Cree `README_clean.md` y lo deje listo para revisar?
-- C) Solo lo pegas vos manualmente en GitHub?
 
-Dime la opción y lo ejecuto.
