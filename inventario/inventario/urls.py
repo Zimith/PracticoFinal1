@@ -23,10 +23,13 @@ from django.conf.urls.static import static
 from django.urls import re_path
 from django.views.static import serve
 from django.http import HttpResponse
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     # Simple health endpoint to diagnose redirect loops (no auth)
     path('health/', lambda request: HttpResponse('ok'), name='health'),
+    # Redirigir la raíz '/' a la lista de productos para que la app sea accesible
+    path('', RedirectView.as_view(pattern_name='productos:producto_list', permanent=False)),
     path('admin/', admin.site.urls),
     path("productos/", include("productos.urls")),
     path("clientes/", include("clientes.urls")),
